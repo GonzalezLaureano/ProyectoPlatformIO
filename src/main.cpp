@@ -1,8 +1,10 @@
 #include <Arduino.h>
-const int PIN_LED=D0;
+const int PIN_LED=D4;
 const int PIN_BUTTON_FAST=D1;
 const int PIN_BUTTON_LOW=D2;
-int INT_time=1000;
+unsigned long waitTime=1000;
+unsigned long actualTime;
+unsigned long pastTime;
 
 void setup() {
   pinMode(PIN_LED,OUTPUT);
@@ -11,18 +13,19 @@ void setup() {
 }
 
 void loop() {
+  actualTime=millis();
   if (digitalRead(PIN_BUTTON_FAST)==HIGH)
   {
-    INT_time=INT_time-1000;
+    waitTime-=1000;
   }
   if (digitalRead(PIN_BUTTON_LOW)==HIGH)
   {
-    INT_time=INT_time+1000;
+    waitTime+=1000;
   }
-  
-  digitalWrite(PIN_LED,HIGH);
-  delay(INT_time);
-  digitalWrite(PIN_LED,LOW);
-  delay(INT_time);
+  if (actualTime-pastTime>=waitTime)
+  {
+    digitalWrite(PIN_LED,!digitalRead(PIN_LED));
+    pastTime=actualTime;
+  }
   // put your main code here, to run repeatedly: 
 }
