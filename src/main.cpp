@@ -1,7 +1,5 @@
 #include <Arduino.h>
-
-const int PIN_LED=2;
-
+const int PIN_LED=D0;
 void setup() {
   pinMode(PIN_LED,OUTPUT);
 }
